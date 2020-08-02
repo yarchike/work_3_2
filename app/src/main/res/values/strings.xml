@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Post</string>
+    <string name="title_authorization">Авторизация</string>
+    <string name="enter_login">Введите логин</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="success">Success</string>
+    <string name="authentication_failed">Authentication failed</string>
+    <string name="registration_failed">Registration failed</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="please_wait">Please wait....</string>
+    <string name="authentication">Authentication</string>
+    <string name="text_but_in_come">Войти</string>
+    <string name="text_but_registr">Регистрация</string>
+    <string name="authorisation_Error">Ошибка авторизации</string>
+    <string name="registration">Регистрация</string>
+
+</resources>
