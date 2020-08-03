@@ -1,5 +1,6 @@
 package com.yarchike.work_3_1
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+    private var dialog: ProgressDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,10 +22,17 @@ class MainActivity : AppCompatActivity() {
         title = getString(R.string.title_authorization)
         btn_login.setOnClickListener {
             lifecycleScope.launch {
-                val login = edt_login.text?.toString().orEmpty()
+                dialog = ProgressDialog(this@MainActivity).apply {
+                    setMessage(getString(R.string.please_wait))
+                    setTitle(getString(R.string.loading_data))
+                    show()
+                }
+
+
+                    val login = edt_login.text?.toString().orEmpty()
                 val password = edt_password.text?.toString().orEmpty()
                 val token = Repository.authenticate(login, password)
-
+                    dialog?.dismiss()
                 if (token.isSuccessful) {
                     setUserAuth(requireNotNull(token.body()).toString())
                     navigateToFeed()

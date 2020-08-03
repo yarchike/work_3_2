@@ -7,11 +7,16 @@
     <string name="authentication_failed">Authentication failed</string>
     <string name="registration_failed">Registration failed</string>
     <string name="repeat_password">Повторите пароль</string>
-    <string name="please_wait">Please wait....</string>
+    <string name="please_wait">Пожалуйста подождите...</string>
     <string name="authentication">Authentication</string>
     <string name="text_but_in_come">Войти</string>
     <string name="text_but_registr">Регистрация</string>
     <string name="authorisation_Error">Ошибка авторизации</string>
     <string name="registration">Регистрация</string>
+    <string name="loading_data">Загрузка данных</string>
+    <string name="Events">События</string>
+    <string name="Reposts">Репосты</string>
+    <string name="Youtube_video">Видео с Youtube</string>
+    <string name="Sponsored_posts">Рекламные посты</string>
 
 </resources>

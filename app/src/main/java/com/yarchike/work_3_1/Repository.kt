@@ -1,5 +1,6 @@
 package com.yarchike.work_3_1
 
+import com.yarchike.work_3_1.Post.Post
 import com.yarchike.work_3_1.Repository.authenticate
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +13,7 @@ object Repository {
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("http://93.179.85.126:5050/")
+            .baseUrl("https://server-martynov.herokuapp.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -31,4 +32,5 @@ object Repository {
                 password
             )
         )
+    suspend fun getPosts(): ArrayList<Post> = api.getPosts()
 }
