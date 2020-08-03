@@ -1,7 +1,6 @@
 package com.yarchike.work_3_1
 
-import com.yarchike.work_3_1.Post.Post
-import com.yarchike.work_3_1.Repository.authenticate
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.yarchike.work_3_1.api.API
@@ -32,5 +31,4 @@ object Repository {
                 password
             )
         )
-    suspend fun getPosts(): ArrayList<Post> = api.getPosts()
 }

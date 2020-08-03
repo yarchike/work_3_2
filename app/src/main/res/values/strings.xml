@@ -18,5 +18,9 @@
     <string name="Reposts">Репосты</string>
     <string name="Youtube_video">Видео с Youtube</string>
     <string name="Sponsored_posts">Рекламные посты</string>
+    <string name="password_is_incorrect">Не коректный пароль</string>
+    <string name="username_is_incorrect">Не коректный Логин</string>
+    <string name="password_mismatch">Пароли не совпадают</string>
+
 
 </resources>

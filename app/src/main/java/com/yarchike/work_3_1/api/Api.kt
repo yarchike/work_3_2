@@ -1,9 +1,7 @@
 package com.yarchike.work_3_1.api
 
-import com.yarchike.work_3_1.Post.Post
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 
 data class AuthRequestParams(val username: String, val password: String)
@@ -20,7 +18,5 @@ interface API {
     @POST("api/v1/registration")
     suspend fun register(@Body registrationRequestParams: RegistrationRequestParams): Response<Token>
 
-    @GET("api/v1/posts")
-    suspend fun getPosts(): ArrayList<Post>
 
 }
