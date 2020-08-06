@@ -21,6 +21,7 @@
     <string name="password_is_incorrect">Не коректный пароль</string>
     <string name="username_is_incorrect">Не коректный Логин</string>
     <string name="password_mismatch">Пароли не совпадают</string>
+    <string name="falien_connect">Ошибка соединенеия с сервером</string>
 
 
 </resources>

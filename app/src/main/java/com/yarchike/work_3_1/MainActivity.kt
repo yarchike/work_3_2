@@ -15,38 +15,53 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-       /* if (isAuthenticated()) {
+        if (isAuthenticated()) {
             navigateToFeed()
             return
-        }*/
+        }
         title = getString(R.string.title_authorization)
         btn_login.setOnClickListener {
-            if(!isValidUsername(edt_login.text.toString())){
-                edt_login.error = getString(R.string.username_is_incorrect)
-            }else if (!isValidPassword(edt_password.text.toString())) {
-                edt_password.error = getString(R.string.password_is_incorrect)
-            } else {
-                lifecycleScope.launch {
-                    dialog = ProgressDialog(this@MainActivity).apply {
-                        setMessage(getString(R.string.please_wait))
-                        setTitle(getString(R.string.loading_data))
-                        show()
-                    }
+            when {
+                !isValidUsername(edt_login.text.toString()) -> {
+                    til_login.error = getString(R.string.username_is_incorrect)
+                }
+                !isValidPassword(edt_password.text.toString()) -> {
+                    til_password.error = getString(R.string.password_is_incorrect)
+                }
+                else -> {
+                    lifecycleScope.launch {
+                        dialog = ProgressDialog(this@MainActivity).apply {
+                            setMessage(getString(R.string.please_wait))
+                            setTitle(getString(R.string.loading_data))
+                            show()
+                            setCancelable(false)
+                        }
 
 
-                    val login = edt_login.text?.toString().orEmpty()
-                    val password = edt_password.text?.toString().orEmpty()
-                    val token = Repository.authenticate(login, password)
-                    dialog?.dismiss()
-                    if (token.isSuccessful) {
-                        setUserAuth(requireNotNull(token.body()).toString())
-                        navigateToFeed()
-                    } else {
-                        Toast.makeText(
-                            this@MainActivity,
-                            getString(R.string.authorisation_Error),
-                            Toast.LENGTH_LONG
-                        ).show()
+                        val login = edt_login.text?.toString().orEmpty()
+                        val password = edt_password.text?.toString().orEmpty()
+                        try {
+                            val token = Repository.authenticate(login, password)
+
+                            dialog?.dismiss()
+                            if (token.isSuccessful) {
+                                setUserAuth(requireNotNull(token.body()).toString())
+                                navigateToFeed()
+                            } else {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    getString(R.string.authorisation_Error),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        } catch (e: Exception) {
+                            Toast.makeText(
+                                this@MainActivity,
+                                getString(R.string.falien_connect),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            dialog?.dismiss()
+                        }
                     }
                 }
             }

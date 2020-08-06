@@ -21,39 +21,60 @@ class RegistrationActivity : AppCompatActivity() {
                 val login = edt_registration_login.text?.toString().orEmpty()
                 val password = edt_registration_password.text?.toString().orEmpty()
                 val twoPassword = edt_registration_repeat_password.text?.toString().orEmpty()
-                if (!isValidUsername(login)) {
-                    edt_registration_login.error = getString(R.string.username_is_incorrect)
-                } else if (!isValidPassword(password)) {
-                    edt_registration_password.error = getString(R.string.password_is_incorrect)
-                } else if (!(password == twoPassword)) {
-                    edt_registration_repeat_password.error = getString(R.string.password_mismatch)
-                } else if (login == "") {
-                    Toast.makeText(this@RegistrationActivity, "Ведите Логин", Toast.LENGTH_LONG)
-                        .show()
-                } else if (password == "") {
-                    Toast.makeText(
-                        this@RegistrationActivity,
-                        "Введите пароль",
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else if (twoPassword == "") {
-                    Toast.makeText(
-                        this@RegistrationActivity,
-                        "Введите пароль",
-                        Toast.LENGTH_LONG
-                    ).show()
-                } else {
-                    dialog = ProgressDialog(this@RegistrationActivity).apply {
-                        setMessage(getString(R.string.please_wait))
-                        setTitle(getString(R.string.loading_data))
-                        show()
+                when {
+                    !isValidUsername(login) -> {
+                        til_registration_login.error = getString(R.string.username_is_incorrect)
                     }
-                    Repository.register(login, password)
-                    dialog?.dismiss()
-                    val intent = Intent(this@RegistrationActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    !isValidPassword(password) -> {
+                        til_registration_password.error = getString(R.string.password_is_incorrect)
+                    }
+                    !(password == twoPassword) -> {
+                        til_registration_repeat_password.error =
+                            getString(R.string.password_mismatch)
+                    }
+                    login == "" -> {
+                        Toast.makeText(this@RegistrationActivity, "Ведите Логин", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    password == "" -> {
+                        Toast.makeText(
+                            this@RegistrationActivity,
+                            "Введите пароль",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    twoPassword == "" -> {
+                        Toast.makeText(
+                            this@RegistrationActivity,
+                            "Введите пароль",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    else -> {
+                        dialog = ProgressDialog(this@RegistrationActivity).apply {
+                            setMessage(getString(R.string.please_wait))
+                            setTitle(getString(R.string.loading_data))
+                            show()
+                            setCancelable(false)
+                        }
+                        try {
+                            Repository.register(login, password)
 
+
+                            dialog?.dismiss()
+                            val intent = Intent(this@RegistrationActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } catch (e: Exception) {
+                            Toast.makeText(
+                                this@RegistrationActivity,
+                                getString(R.string.falien_connect),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            dialog?.dismiss()
+                        }
+
+                    }
                 }
             }
         }
