@@ -58,7 +58,7 @@ class RegistrationActivity : AppCompatActivity() {
                             setCancelable(false)
                         }
                         try {
-                            Repository.register(login, password)
+                            App.repository.register(login, password)
 
 
                             dialog?.dismiss()

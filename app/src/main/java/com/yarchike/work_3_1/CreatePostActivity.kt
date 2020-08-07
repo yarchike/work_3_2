@@ -29,7 +29,7 @@ class CreatePostActivity : AppCompatActivity() {
                 }
                 // Обворачиваем в try catch, потому что возможны ошибки при соединении с сетью
                 try {
-                    val result = Repository.createPost(contentEdt.text.toString())
+                    val result = App.repository.createPost(contentEdt.text.toString())
                     if (result.isSuccessful) {
                         // обрабатываем успешное создание поста
                         handleSuccessfullResult()

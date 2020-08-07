@@ -36,7 +36,7 @@ class FeedActivity : AppCompatActivity(),
                 setProgressBarIndeterminate(true)
                 show()
             }
-            val result = Repository.getPosts()
+            val result = App.repository.getPosts()
             dialog?.dismiss()
             if (result.isSuccessful) {
                 with(container) {
@@ -58,9 +58,9 @@ class FeedActivity : AppCompatActivity(),
             with(container) {
                 adapter?.notifyItemChanged(position)
                 val response = if (item.isLike) {
-                    Repository.cancelMyLike(item.id.toLong())
+                    App.repository.cancelMyLike(item.id.toLong())
                 } else {
-                    Repository.likedByMe(item.id.toLong())
+                    App.repository.likedByMe(item.id.toLong())
                 }
                 item.likeActionPerforming = false
                 if (response.isSuccessful) {
