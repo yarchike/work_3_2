@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
                             dialog?.dismiss()
                             if (token.isSuccessful) {
-                                setUserAuth(requireNotNull(token.body()).toString())
+                                setUserAuth(requireNotNull(token.body()?.token))
                                 navigateToFeed()
                             } else {
                                 Toast.makeText(
