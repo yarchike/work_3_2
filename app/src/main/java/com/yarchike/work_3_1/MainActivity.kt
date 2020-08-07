@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                         val login = edt_login.text?.toString().orEmpty()
                         val password = edt_password.text?.toString().orEmpty()
                         try {
-                            val token = Repository.authenticate(login, password)
+                            val token = App.repository.authenticate(login, password)
 
                             dialog?.dismiss()
                             if (token.isSuccessful) {
