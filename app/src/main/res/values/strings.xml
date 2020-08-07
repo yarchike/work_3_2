@@ -22,6 +22,12 @@
     <string name="username_is_incorrect">Не коректный Логин</string>
     <string name="password_mismatch">Пароли не совпадают</string>
     <string name="falien_connect">Ошибка соединенеия с сервером</string>
-
+    <string name="like_in_progress">Ожидание лайка</string>
+    <string name="downloading_posts">Загрузка постов</string>
+    <string name="error_occured">Ошибка</string>
+    <string name="create_new_post">Создание нового поста</string>
+    <string name="enter_your_post_content">Введите текст</string>
+    <string name="create">Создать</string>
+    <string name="post_created_successfully">Пост успешно создан</string>
 
 </resources>
