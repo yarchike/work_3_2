@@ -72,6 +72,6 @@ class FeedActivity : AppCompatActivity(),
     }
 
     override fun onRepostsBtnClicked(item: PostModel, position: Int) {
-        toast("Ура")
+
     }
 }

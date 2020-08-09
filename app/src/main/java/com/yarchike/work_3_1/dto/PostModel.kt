@@ -21,7 +21,8 @@ data class PostModel(
     val dateRepost: Long? = null,
     val autorRepost: String? = null,
     var hidePost: Boolean = false,
-    var viewsPost: Long = 0
+    var viewsPost: Long = 0,
+    val repostResurs:PostModel?=null
 )
  {
     var likeActionPerforming = false
