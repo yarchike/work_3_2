@@ -43,6 +43,7 @@ class FeedActivity : AppCompatActivity(),
                     layoutManager = LinearLayoutManager(this@FeedActivity)
                     adapter = PostAdapter(result.body() ?: emptyList()).apply {
                         likeBtnClickListener = this@FeedActivity
+                        repostsBtnClickListener = this@FeedActivity
                     }
                 }
             } else {
