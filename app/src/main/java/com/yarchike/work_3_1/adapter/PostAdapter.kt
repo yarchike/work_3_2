@@ -3,7 +3,6 @@ package com.yarchike.work_3_1.adapter
 
 import android.app.AlertDialog
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,7 +61,11 @@ class PostAdapter(val list: List<PostModel>) : RecyclerView.Adapter<RecyclerView
     }
 
     interface OnRepostsBtnClickListener {
-        fun onRepostsBtnClicked(item: PostModel, position: Int)
+        fun onRepostsBtnClicked(
+            item: PostModel,
+            position: Int,
+            it: String
+        )
     }
 
 
@@ -75,9 +78,11 @@ class RepostViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.View
                 val currentPosition = adapterPosition
                 if (currentPosition != RecyclerView.NO_POSITION) {
                     val item = adapter.list[currentPosition]
+
                     if (item.likeActionPerforming) {
                         context.toast(context.getString(R.string.like_in_progress))
                     } else {
+
                         adapter.likeBtnClickListener?.onLikeBtnClicked(item, currentPosition)
                     }
                 }
@@ -146,7 +151,8 @@ class PostViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHo
                         showDialog(context) {
                             adapter.repostsBtnClickListener?.onRepostsBtnClicked(
                                 item,
-                                currentPosition
+                                currentPosition,
+                                it
                             )
                         }
                     }
@@ -188,11 +194,12 @@ class PostViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHo
             }
         }
     }
+
     fun showDialog(context: Context, createBtnClicked: (content: String) -> Unit) {
         val dialog = AlertDialog.Builder(context)
             .setView(R.layout.create_post)
             .show()
-        dialog.createPostBtn.setOnClickListener {
+        dialog.createRepostBtn.setOnClickListener {
             createBtnClicked(dialog.contentEdtRepost.text.toString())
             dialog.dismiss()
         }

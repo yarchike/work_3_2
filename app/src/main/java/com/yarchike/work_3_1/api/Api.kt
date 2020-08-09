@@ -11,6 +11,7 @@ data class Token(val token: String)
 
 data class RegistrationRequestParams(val username: String, val password: String)
 data class CreatePostRequest(val id: Long = 0, val content: String)
+data class CreateRepostRequest(val id: Long = 0, val content: String, val contentRepost:PostModel )
 
 
 // тип поста автоматически определяется на базе sourceId и link
@@ -33,10 +34,11 @@ interface API {
     suspend fun getPosts(): Response<List<PostModel>>
     @POST("api/v1/posts/{id}/likes")
     suspend fun likedByMe(@Path("id") id: Long): Response<PostModel>
-
     @DELETE("api/v1/posts/{id}/likes")
     suspend fun cancelMyLike(@Path("id") id: Long): Response<PostModel>
     @POST("api/v1/posts")
     suspend fun createPost(@Body createPostRequest: CreatePostRequest): Response<Void>
+    @POST("api/v1/repost")
+    suspend fun createRepost(@Body createRepostRequest: CreateRepostRequest): Response<Void>
 
 }

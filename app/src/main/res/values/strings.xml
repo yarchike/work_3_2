@@ -29,5 +29,6 @@
     <string name="enter_your_post_content">Введите текст</string>
     <string name="create">Создать</string>
     <string name="post_created_successfully">Пост успешно создан</string>
+    <string name="creat_repost">Создание репоста</string>
 
 </resources>

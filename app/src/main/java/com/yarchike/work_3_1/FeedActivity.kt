@@ -71,7 +71,22 @@ class FeedActivity : AppCompatActivity(),
         }
     }
 
-    override fun onRepostsBtnClicked(item: PostModel, position: Int) {
+    override fun onRepostsBtnClicked(item: PostModel, position: Int, content:String) {
+        toast("Прошлоа")
+        lifecycleScope.launch {
+            item.repostActionPerforming = true
+            with(container) {
+                adapter?.notifyItemChanged(position)
+                val response =
+                    App.repository.createRepost(content, item)
+                item.repostActionPerforming = false
+                if (response.isSuccessful) {
+                   toast("Прошлоа")
+                }else{
+                    toast("Не прошло")
+                }
 
+            }
+        }
     }
 }
