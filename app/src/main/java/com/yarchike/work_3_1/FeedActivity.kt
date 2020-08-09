@@ -15,7 +15,7 @@ import splitties.activities.start
 import splitties.toast.toast
 
 class FeedActivity : AppCompatActivity(),
-    PostAdapter.OnLikeBtnClickListener {
+    PostAdapter.OnLikeBtnClickListener, PostAdapter.OnRepostsBtnClickListener {
     private var dialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,10 +64,14 @@ class FeedActivity : AppCompatActivity(),
                 }
                 item.likeActionPerforming = false
                 if (response.isSuccessful) {
-                    item.updateLikes(response.body()!!)
+                    item.updatePost(response.body()!!)
                 }
                 adapter?.notifyItemChanged(position)
             }
         }
+    }
+
+    override fun onRepostsBtnClicked(item: PostModel, position: Int) {
+        toast("Ура")
     }
 }

@@ -1,26 +1,19 @@
 package com.yarchike.work_3_1.dto
 
-enum class AttachmentType {
-    IMAGE, AUDIO, VIDEO
-}
 
-data class AttachmentModel(val id: String, val url: String, val type: AttachmentType)
 
-enum class PostType {
-    POST, REPOST
-}
 
 data class PostModel(
     val id: Int,
     val date: Long,
     val autor: String,
-    val postResurse: String,
+    var postResurse: String? = null,
     var like: Int = 0,
     val comments: Int = 0,
     val share: Int = 0,
     var isLike: Boolean =false,
     val isComment: Boolean=false,
-    val isShare: Boolean=false,
+    var isShare: Boolean=false,
     val adress: String,
     val coordinates: Pair<Double, Double>,
     val type: PostTypes = PostTypes.POST,
@@ -32,9 +25,13 @@ data class PostModel(
 )
  {
     var likeActionPerforming = false
-    fun updateLikes(updatedModel: PostModel) {
-        if (id != updatedModel.id) throw IllegalAccessException("Ids are different")
-        like = updatedModel.like
-        like = updatedModel.like
-    }
+     var repostActionPerforming = false
+     fun updatePost(updatedModel: PostModel) {
+         if (id != updatedModel.id) throw IllegalAccessException("Ids are different")
+         like = updatedModel.like
+         isLike = updatedModel.isLike
+         postResurse = updatedModel.postResurse
+         isShare = updatedModel.isShare
+         isShare = updatedModel.isShare
+     }
 }
