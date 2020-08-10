@@ -25,6 +25,11 @@ class NetworkRepository(private val api: API): Repository {
         api.createPost(CreatePostRequest(content = content))
 
     override suspend fun createRepost(content: String, contentRepost: PostModel): Response<Void> =
-        api.createRepost(CreateRepostRequest(content = content, contentRepost = contentRepost))
+        api.createRepost(CreateRepostRequest(postResurse = content, repostResurs = contentRepost))
+
+    override suspend fun getPostsAfter(id: Long): Response<List<PostModel>> =
+        api.getPostsAfter(id)
+
+
 
 }

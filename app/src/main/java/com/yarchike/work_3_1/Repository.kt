@@ -13,4 +13,5 @@ interface Repository {
     suspend fun cancelMyLike(id: Long): Response<PostModel>
     suspend fun createPost(content: String): Response<Void>
     suspend fun createRepost(content: String, contentRepost:PostModel): Response<Void>
+    suspend fun getPostsAfter(id: Long):Response<List<PostModel>>
 }

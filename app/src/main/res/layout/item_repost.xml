@@ -18,9 +18,9 @@
         android:id="@+id/avatarIv"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatarRp"
+        app:layout_constraintTop_toBottomOf="@+id/contentRp"
         app:srcCompat="@drawable/ic_avatar_48dp"
         tools:srcCompat="@drawable/ic_avatar_48dp" />
 
@@ -40,10 +40,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="8dp"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toEndOf="@id/avatarIv"
-        app:layout_constraintTop_toBottomOf="@+id/avatarRp"
+        app:layout_constraintTop_toBottomOf="@+id/contentRp"
         tools:text="Netology" />
     <TextView
         android:id="@+id/contentTv"
@@ -138,4 +138,14 @@
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/avatarRp"
         app:layout_constraintTop_toBottomOf="@+id/createdTv" />
+
+    <TextView
+        android:id="@+id/contentRp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatarRp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
