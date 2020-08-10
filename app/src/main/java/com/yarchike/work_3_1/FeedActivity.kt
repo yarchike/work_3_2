@@ -41,8 +41,9 @@ class FeedActivity : AppCompatActivity(),
             if (result.isSuccessful) {
                 with(container) {
                     layoutManager = LinearLayoutManager(this@FeedActivity)
-                    adapter = PostAdapter(result.body() ?: emptyList()).apply {
+                    adapter = PostAdapter(result.body() as MutableList<PostModel>).apply {
                         likeBtnClickListener = this@FeedActivity
+                        repostsBtnClickListener = this@FeedActivity
                     }
                 }
             } else {

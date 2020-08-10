@@ -11,7 +11,7 @@ data class Token(val token: String)
 
 data class RegistrationRequestParams(val username: String, val password: String)
 data class CreatePostRequest(val id: Long = 0, val content: String)
-data class CreateRepostRequest(val id: Long = 0, val content: String, val contentRepost:PostModel )
+data class CreateRepostRequest(val id: Long = 0, val postResurse: String, val repostResurs:PostModel )
 
 
 // тип поста автоматически определяется на базе sourceId и link
@@ -40,5 +40,7 @@ interface API {
     suspend fun createPost(@Body createPostRequest: CreatePostRequest): Response<Void>
     @POST("api/v1/repost")
     suspend fun createRepost(@Body createRepostRequest: CreateRepostRequest): Response<Void>
+    @POST("api/v1/posts/After")
+    suspend fun getPostsAfter(@Body id:Long): Response<List<PostModel>>
 
 }
