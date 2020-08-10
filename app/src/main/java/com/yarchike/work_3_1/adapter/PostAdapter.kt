@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yarchike.work_3_1.App
 import com.yarchike.work_3_1.R
 import com.yarchike.work_3_1.dto.PostModel
-import kotlinx.android.synthetic.main.activity_create_post.*
 import kotlinx.android.synthetic.main.create_post.*
+import kotlinx.android.synthetic.main.item_load_more.view.*
 import kotlinx.android.synthetic.main.item_load_new.view.*
-import kotlinx.android.synthetic.main.item_post.view.*
+import kotlinx.android.synthetic.main.item_load_new.view.progressbar
 import kotlinx.android.synthetic.main.item_post.view.authorTv
 import kotlinx.android.synthetic.main.item_post.view.contentTv
 import kotlinx.android.synthetic.main.item_post.view.likeBtn
@@ -61,9 +61,11 @@ class PostAdapter(val list: MutableList<PostModel>) : RecyclerView.Adapter<Recyc
     override fun getItemCount() = list.size +2
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val postIndex = position - 1
         when (holder) {
-            is PostViewHolder -> holder.bind(list[position])
-            is RepostViewHolder -> holder.bind(list[position])
+            is PostViewHolder -> holder.bind(list[postIndex])
+            is RepostViewHolder -> holder.bind(list[postIndex])
+            else -> Unit
         }
     }
 
@@ -103,9 +105,9 @@ class FooterViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.View
     init {
         with(itemView) {
             // Слушатель на кнопку
-            loadNewBtn.setOnClickListener {
+            loadMoreBtn.setOnClickListener {
                 // делаем кнопку неактивной пока идет запрос
-                loadNewBtn.isEnabled = false
+                loadMoreBtn.isEnabled = false
                 // над кнопкой покажем progressBar
                 progressbar.visibility = View.VISIBLE
                 GlobalScope.launch(Dispatchers.Main) {
@@ -114,7 +116,7 @@ class FooterViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.View
                     val response = App.repository.getPostsAfter(adapter.list[0].id.toLong())
                     // восстанавливаем справедливость
                     progressbar.visibility = View.INVISIBLE
-                    loadNewBtn.isEnabled = true
+                    loadMoreBtn.isEnabled = true
                     if (response.isSuccessful) {
                         // Если все успешно, то новые элементы добавляем в начало
                         // нашего списка.
