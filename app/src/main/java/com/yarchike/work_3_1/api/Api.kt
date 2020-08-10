@@ -30,7 +30,7 @@ interface API {
 
     @POST("api/v1/registration")
     suspend fun register(@Body registrationRequestParams: RegistrationRequestParams): Response<Token>
-    @GET("api/v1/posts")
+    @GET("api/v1/posts/recent")
     suspend fun getPosts(): Response<List<PostModel>>
     @POST("api/v1/posts/{id}/likes")
     suspend fun likedByMe(@Path("id") id: Long): Response<PostModel>
@@ -42,5 +42,7 @@ interface API {
     suspend fun createRepost(@Body createRepostRequest: CreateRepostRequest): Response<Void>
     @POST("api/v1/posts/After")
     suspend fun getPostsAfter(@Body id:Long): Response<List<PostModel>>
+    @POST("api/v1/posts/old")
+    suspend fun getPostsOld(@Body id:Long): Response<List<PostModel>>
 
 }

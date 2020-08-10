@@ -30,6 +30,8 @@ class NetworkRepository(private val api: API): Repository {
     override suspend fun getPostsAfter(id: Long): Response<List<PostModel>> =
         api.getPostsAfter(id)
 
+    override suspend fun getPostsOld(id: Long): Response<List<PostModel>> =
+        api.getPostsOld(id)
 
 
 }
