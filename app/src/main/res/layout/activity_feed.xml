@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/container"
         app:layout_constraintStart_toStartOf="parent"
@@ -13,6 +17,7 @@
         tools:listitem="@layout/item_post"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -21,5 +26,6 @@
         app:srcCompat="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

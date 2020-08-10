@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yarchike.work_3_1.App
 import com.yarchike.work_3_1.R
 import com.yarchike.work_3_1.dto.PostModel
-import kotlinx.android.synthetic.main.activity_create_post.*
 import kotlinx.android.synthetic.main.create_post.*
+import kotlinx.android.synthetic.main.item_load_more.view.*
 import kotlinx.android.synthetic.main.item_load_new.view.*
-import kotlinx.android.synthetic.main.item_post.view.*
+import kotlinx.android.synthetic.main.item_load_new.view.progressbar
 import kotlinx.android.synthetic.main.item_post.view.authorTv
 import kotlinx.android.synthetic.main.item_post.view.contentTv
 import kotlinx.android.synthetic.main.item_post.view.likeBtn
@@ -34,7 +34,7 @@ class PostAdapter(val list: MutableList<PostModel>) : RecyclerView.Adapter<Recyc
     private val ITEM_TYPE_POST = 1
     private val ITEM_TYPE_REPOST = 2
     private val ITEM_FOOTER = 3;
-    private val ITEM_HEADER = 4
+   // private val ITEM_HEADER = 4
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ITEM_TYPE_POST) {
@@ -45,12 +45,12 @@ class PostAdapter(val list: MutableList<PostModel>) : RecyclerView.Adapter<Recyc
             val repostView =
                 LayoutInflater.from(parent.context).inflate(R.layout.item_repost, parent, false)
             RepostViewHolder(this, repostView)
-        } else if (viewType == ITEM_HEADER) {
+        }/* else if (viewType == ITEM_HEADER) {
             HeaderViewHolder(
                 this,
                 LayoutInflater.from(parent.context).inflate(R.layout.item_load_new, parent, false)
             )
-        } else {
+        }*/ else {
             FooterViewHolder(
                 this,
                 LayoutInflater.from(parent.context).inflate(R.layout.item_load_more, parent, false)
@@ -58,24 +58,26 @@ class PostAdapter(val list: MutableList<PostModel>) : RecyclerView.Adapter<Recyc
         }
     }
 
-    override fun getItemCount() = list.size +2
+    override fun getItemCount() = list.size + 1
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val postIndex = position
         when (holder) {
-            is PostViewHolder -> holder.bind(list[position])
-            is RepostViewHolder -> holder.bind(list[position])
+            is PostViewHolder -> holder.bind(list[postIndex])
+            is RepostViewHolder -> holder.bind(list[postIndex])
+            else -> Unit
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         Log.v("test", "getitem type by position " + position)
         return when {
-            position == 0 -> ITEM_HEADER
-            position == list.size + 1 -> ITEM_FOOTER
+           // position == 0 -> ITEM_HEADER
+            position == list.size -> ITEM_FOOTER
             // 0-я позиция header, 1-я позиция в адаптере
             // это 0-я позиция в списке постов. Соответственно,
             // инкрементируем все значения
-            list[position - 1].repostResurs == null -> ITEM_TYPE_POST
+            list[position].repostResurs == null -> ITEM_TYPE_POST
             else -> ITEM_TYPE_REPOST
         }
     }
@@ -92,14 +94,46 @@ class PostAdapter(val list: MutableList<PostModel>) : RecyclerView.Adapter<Recyc
             it: String
         )
     }
-    interface OnClickListenerRespon {
-        fun onClickListenerRespon(
-
-        )
+    fun newRecentPosts(list : List<PostModel>){
+        this.list.clear()
+        this.list.addAll(list)
     }
 }
 
 class FooterViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHolder(view) {
+    init {
+        with(itemView) {
+            // Слушатель на кнопку
+            loadMoreBtn.setOnClickListener {
+                // делаем кнопку неактивной пока идет запрос
+                loadMoreBtn.isEnabled = false
+                // над кнопкой покажем progressBar
+                progressbar.visibility = View.VISIBLE
+                GlobalScope.launch(Dispatchers.Main) {
+                    // запрашиваем все посты после нашего первого поста
+                    // (он же самый последний)
+                    val response = App.repository.getPostsOld(adapter.list[adapter.list.size-1].id.toLong())
+                    // восстанавливаем справедливость
+                    progressbar.visibility = View.INVISIBLE
+                    loadMoreBtn.isEnabled = true
+                    if (response.isSuccessful) {
+                        // Если все успешно, то новые элементы добавляем в начало
+                        // нашего списка.
+                        val newItems = response.body()!!
+                        adapter.list.addAll(adapter.list.size-1, newItems)
+                        // Оповещаем адаптер о новых элементах
+                        adapter.notifyItemRangeInserted(adapter.list.size-1, newItems.size)
+                    } else {
+                        context.toast("Error occured")
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/*class HeaderViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHolder(view) {
     init {
         with(itemView) {
             // Слушатель на кнопку
@@ -129,40 +163,7 @@ class FooterViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.View
             }
         }
     }
-}
-
-
-class HeaderViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHolder(view) {
-    init {
-                        with(itemView) {
-                            // Слушатель на кнопку
-                            loadNewBtn.setOnClickListener {
-                                // делаем кнопку неактивной пока идет запрос
-                                loadNewBtn.isEnabled = false
-                                // над кнопкой покажем progressBar
-                                progressbar.visibility = View.VISIBLE
-                                GlobalScope.launch(Dispatchers.Main) {
-                                    // запрашиваем все посты после нашего первого поста
-                                    // (он же самый последний)
-                                    val response = App.repository.getPostsAfter(adapter.list[0].id.toLong())
-                                    // восстанавливаем справедливость
-                                    progressbar.visibility = View.INVISIBLE
-                                    loadNewBtn.isEnabled = true
-                                    if (response.isSuccessful) {
-                                        // Если все успешно, то новые элементы добавляем в начало
-                                        // нашего списка.
-                                        val newItems = response.body()!!
-                                        adapter.list.addAll(0, newItems)
-                                        // Оповещаем адаптер о новых элементах
-                                        adapter.notifyItemRangeInserted(0, newItems.size)
-                                    } else {
-                                        context.toast("Error occured")
-                                    }
-                }
-            }
-        }
-    }
-}
+}*/
 
 class RepostViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHolder(view) {
     init {
@@ -301,4 +302,3 @@ class PostViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHo
 
 
 }
-

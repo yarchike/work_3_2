@@ -51,6 +51,7 @@ dependencies {
     def splitties_version = "2.1.1"
     implementation "com.louiscad.splitties:splitties-toast:$splitties_version"
     implementation "com.louiscad.splitties:splitties-activities:$splitties_version"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
 
 

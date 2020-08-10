@@ -17,6 +17,7 @@ import splitties.toast.toast
 class FeedActivity : AppCompatActivity(),
     PostAdapter.OnLikeBtnClickListener, PostAdapter.OnRepostsBtnClickListener {
     private var dialog: ProgressDialog? = null
+    var adapter = PostAdapter(ArrayList<PostModel>())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +25,23 @@ class FeedActivity : AppCompatActivity(),
         fab.setOnClickListener {
             start<CreatePostActivity>()
         }
+        swipeContainer.setOnRefreshListener {
+            refreshData()
+        }
+
     }
+
+    private fun refreshData() {
+        lifecycleScope.launch{
+            val newData = App.repository.getPosts()
+            swipeContainer.isRefreshing = false
+            if (newData.isSuccessful) {
+                adapter?.newRecentPosts(newData.body()!!)
+            }
+        }
+    }
+
+
 
     override fun onStart() {
         super.onStart()
@@ -73,7 +90,7 @@ class FeedActivity : AppCompatActivity(),
     }
 
     override fun onRepostsBtnClicked(item: PostModel, position: Int, content:String) {
-        toast("Прошлоа")
+
         lifecycleScope.launch {
             item.repostActionPerforming = true
             with(container) {
@@ -81,13 +98,10 @@ class FeedActivity : AppCompatActivity(),
                 val response =
                     App.repository.createRepost(content, item)
                 item.repostActionPerforming = false
-                if (response.isSuccessful) {
-                   toast("Прошлоа")
-                }else{
-                    toast("Не прошло")
-                }
-
             }
         }
     }
+
+
+
 }
