@@ -25,12 +25,14 @@ import kotlinx.android.synthetic.main.item_repost.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import splitties.toast.toast
 
 class PostAdapter(val list: MutableList<PostModel>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var likeBtnClickListener: OnLikeBtnClickListener? = null
     var repostsBtnClickListener: OnRepostsBtnClickListener? = null
+    var loadMoreBtnClickListener: OnLoadMoreBtnClickListener? = null
     private val ITEM_TYPE_POST = 1
     private val ITEM_TYPE_REPOST = 2
     private val ITEM_FOOTER = 3;
@@ -88,6 +90,10 @@ class PostAdapter(val list: MutableList<PostModel>) :
         )
     }
 
+    interface OnLoadMoreBtnClickListener {
+        fun onLoadMoreBtnClickListener(last:Long, size: Int)
+    }
+
     fun newRecentPosts(list: List<PostModel>) {
         this.list.clear()
         this.list.addAll(list)
@@ -103,29 +109,14 @@ class FooterViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.View
                 loadMoreBtn.isEnabled = false
                 // над кнопкой покажем progressBar
                 progressbar.visibility = View.VISIBLE
-                GlobalScope.launch(Dispatchers.Main) {
-                    // запрашиваем все посты после нашего первого поста
-                    // (он же самый последний)
-                    val response =
-                        App.repository.getPostsOld(adapter.list[adapter.list.size - 1].id.toLong())
-                    // восстанавливаем справедливость
-                    progressbar.visibility = View.INVISIBLE
-                    loadMoreBtn.isEnabled = true
-                    if (response.isSuccessful) {
-                        // Если все успешно, то новые элементы добавляем в начало
-                        // нашего списка.
-                        val newItems = response.body()!!
-                        adapter.list.addAll(adapter.list.size - 1, newItems)
-                        // Оповещаем адаптер о новых элементах
-                        adapter.notifyItemRangeInserted(adapter.list.size - 1, newItems.size)
-                    } else {
-                        context.toast("Error occured")
-                    }
-                }
+                adapter.loadMoreBtnClickListener?.onLoadMoreBtnClickListener(adapter.list[adapter.list.size - 1].id.toLong(), adapter.list.size - 1)
+
+
             }
         }
     }
 }
+
 
 
 class RepostViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHolder(view) {

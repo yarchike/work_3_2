@@ -1,23 +1,29 @@
 package com.yarchike.work_3_1
 
 
-
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yarchike.work_3_1.adapter.PostAdapter
 import com.yarchike.work_3_1.dto.PostModel
 import kotlinx.android.synthetic.main.activity_feed.*
+import kotlinx.android.synthetic.main.item_load_more.*
+import kotlinx.android.synthetic.main.item_load_more.view.*
+import kotlinx.android.synthetic.main.item_load_new.view.*
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import splitties.activities.start
 import splitties.toast.toast
 
 class FeedActivity : AppCompatActivity(),
-    PostAdapter.OnLikeBtnClickListener, PostAdapter.OnRepostsBtnClickListener {
+    PostAdapter.OnLikeBtnClickListener, PostAdapter.OnRepostsBtnClickListener,
+    PostAdapter.OnLoadMoreBtnClickListener {
     private var dialog: ProgressDialog? = null
     var adapter = PostAdapter(ArrayList<PostModel>())
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +38,7 @@ class FeedActivity : AppCompatActivity(),
     }
 
     private fun refreshData() {
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             val newData = App.repository.getPosts()
             swipeContainer.isRefreshing = false
             if (newData.isSuccessful) {
@@ -40,7 +46,6 @@ class FeedActivity : AppCompatActivity(),
             }
         }
     }
-
 
 
     override fun onStart() {
@@ -54,6 +59,7 @@ class FeedActivity : AppCompatActivity(),
                 show()
             }
             val result = App.repository.getPosts()
+            println(result.toString())
             dialog?.dismiss()
             if (result.isSuccessful) {
                 with(container) {
@@ -61,6 +67,7 @@ class FeedActivity : AppCompatActivity(),
                     adapter = PostAdapter(result.body() as MutableList<PostModel>).apply {
                         likeBtnClickListener = this@FeedActivity
                         repostsBtnClickListener = this@FeedActivity
+                        loadMoreBtnClickListener = this@FeedActivity
                     }
                 }
             } else {
@@ -89,7 +96,7 @@ class FeedActivity : AppCompatActivity(),
         }
     }
 
-    override fun onRepostsBtnClicked(item: PostModel, position: Int, content:String) {
+    override fun onRepostsBtnClicked(item: PostModel, position: Int, content: String) {
 
         lifecycleScope.launch {
             item.repostActionPerforming = true
@@ -102,6 +109,35 @@ class FeedActivity : AppCompatActivity(),
         }
     }
 
+    override fun onLoadMoreBtnClickListener(last: Long, size: Int) {
+        lifecycleScope.launch {
 
+
+            val response =
+                App.repository.getPostsOld(last)
+            progressbar.visibility = View.INVISIBLE
+            loadMoreBtn.isEnabled = true
+            if (response.isSuccessful) {
+                // Если все успешно, то новые элементы добавляем в начало
+                // нашего списка.
+                val newItems = response.body()!!
+                println(adapter.list.toString())
+                adapter.list.addAll(newItems)
+                println(adapter.list.toString())
+                // Оповещаем адаптер о новых элементах
+                with(container) {
+                    adapter?.notifyItemRangeInserted(size, newItems.size)
+                }
+
+            } else {
+                toast("Error occured")
+            }
+        }
+    }
 
 }
+
+
+
+
+

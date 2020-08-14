@@ -22,7 +22,7 @@ class NetworkRepository(private val api: API): Repository {
         api.cancelMyLike(id)
 
     override suspend fun createPost(content: String): Response<Void> =
-        api.createPost(CreatePostRequest(content = content))
+        api.createPost(CreatePostRequest(postResurse = content))
 
     override suspend fun createRepost(content: String, contentRepost: PostModel): Response<Void> =
         api.createRepost(CreateRepostRequest(postResurse = content, repostResurs = contentRepost))
