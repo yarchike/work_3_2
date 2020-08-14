@@ -187,7 +187,7 @@ class PostViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHo
             likeBtn.setOnClickListener {
                 val currentPosition = adapterPosition
                 if (currentPosition != RecyclerView.NO_POSITION) {
-                    val item = adapter.list[currentPosition - 1]
+                    val item = adapter.list[currentPosition ]
                     if (item.likeActionPerforming) {
                         context.toast(context.getString(R.string.like_in_progress))
                     } else {
