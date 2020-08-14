@@ -37,6 +37,7 @@ class PostAdapter(val list: MutableList<PostModel>) :
     private val ITEM_TYPE_REPOST = 2
     private val ITEM_FOOTER = 3;
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ITEM_TYPE_POST) {
             val postView =
@@ -55,6 +56,7 @@ class PostAdapter(val list: MutableList<PostModel>) :
     }
 
     override fun getItemCount() = list.size + 1
+
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val postIndex = position
@@ -78,6 +80,7 @@ class PostAdapter(val list: MutableList<PostModel>) :
     }
 
 
+
     interface OnLikeBtnClickListener {
         fun onLikeBtnClicked(item: PostModel, position: Int)
     }
@@ -98,6 +101,8 @@ class PostAdapter(val list: MutableList<PostModel>) :
         this.list.clear()
         this.list.addAll(list)
     }
+
+
 }
 
 class FooterViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHolder(view) {

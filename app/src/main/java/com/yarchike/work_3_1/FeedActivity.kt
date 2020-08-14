@@ -11,10 +11,7 @@ import com.yarchike.work_3_1.adapter.PostAdapter
 import com.yarchike.work_3_1.dto.PostModel
 import kotlinx.android.synthetic.main.activity_feed.*
 import kotlinx.android.synthetic.main.item_load_more.*
-import kotlinx.android.synthetic.main.item_load_more.view.*
-import kotlinx.android.synthetic.main.item_load_new.view.*
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import splitties.activities.start
 import splitties.toast.toast
 
@@ -23,6 +20,7 @@ class FeedActivity : AppCompatActivity(),
     PostAdapter.OnLoadMoreBtnClickListener {
     private var dialog: ProgressDialog? = null
     var adapter = PostAdapter(ArrayList<PostModel>())
+    var items = ArrayList<PostModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +61,9 @@ class FeedActivity : AppCompatActivity(),
             dialog?.dismiss()
             if (result.isSuccessful) {
                 with(container) {
+                    items = result.body() as ArrayList<PostModel>
                     layoutManager = LinearLayoutManager(this@FeedActivity)
-                    adapter = PostAdapter(result.body() as MutableList<PostModel>).apply {
+                    adapter = PostAdapter(items as MutableList<PostModel>).apply {
                         likeBtnClickListener = this@FeedActivity
                         repostsBtnClickListener = this@FeedActivity
                         loadMoreBtnClickListener = this@FeedActivity
@@ -121,12 +120,13 @@ class FeedActivity : AppCompatActivity(),
                 // Если все успешно, то новые элементы добавляем в начало
                 // нашего списка.
                 val newItems = response.body()!!
-                println(adapter.list.toString())
-                adapter.list.addAll(newItems)
-                println(adapter.list.toString())
+
+                items.addAll(newItems)
                 // Оповещаем адаптер о новых элементах
                 with(container) {
-                    adapter?.notifyItemRangeInserted(size, newItems.size)
+
+                    adapter = PostAdapter(items as MutableList<PostModel>)
+                    adapter?.notifyItemRangeInserted(size + newItems.size, newItems.size)
                 }
 
             } else {
