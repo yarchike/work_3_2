@@ -122,14 +122,9 @@ class FeedActivity : AppCompatActivity(),
                 val newItems = response.body()!!
 
                 items.addAll(newItems)
+                adapter.newRecentPosts(items)
                 // Оповещаем адаптер о новых элементах
                 with(container) {
-
-                    adapter = PostAdapter(items as MutableList<PostModel>).apply {
-                        likeBtnClickListener = this@FeedActivity
-                        repostsBtnClickListener = this@FeedActivity
-                        loadMoreBtnClickListener = this@FeedActivity
-                    }
                     adapter?.notifyItemRangeInserted(size + newItems.size, newItems.size)
                 }
 
