@@ -1,8 +1,15 @@
 package com.yarchike.work_3_1
 
+import android.graphics.Bitmap
 import com.yarchike.work_3_1.api.*
+import com.yarchike.work_3_1.dto.AttachmentModel
 import com.yarchike.work_3_1.dto.PostModel
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 
 class NetworkRepository(private val api: API): Repository {
 
@@ -21,8 +28,8 @@ class NetworkRepository(private val api: API): Repository {
     override suspend fun cancelMyLike(id: Long): Response<PostModel> =
         api.cancelMyLike(id)
 
-    override suspend fun createPost(content: String): Response<Void> =
-        api.createPost(CreatePostRequest(postResurse = content))
+    override suspend fun createPost(content: String, attachmentModel:AttachmentModel?): Response<Void> =
+        api.createPost(CreatePostRequest(postResurse = content, attachment = attachmentModel))
 
     override suspend fun createRepost(content: String, contentRepost: PostModel): Response<Void> =
         api.createRepost(CreateRepostRequest(postResurse = content, repostResurs = contentRepost))
@@ -32,6 +39,21 @@ class NetworkRepository(private val api: API): Repository {
 
     override suspend fun getPostsOld(id: Long): Response<List<PostModel>> =
         api.getPostsOld(id)
+
+    override suspend fun upload(bitmap: Bitmap): Response<AttachmentModel> {
+        // Создаем поток байтов
+        val bos = ByteArrayOutputStream()
+        // Помещаем Bitmap в качестве JPEG в этот поток
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        val reqFIle =
+            // Создаем тип медиа и передаем массив байтов с потока
+            RequestBody.create("image/jpeg".toMediaTypeOrNull(), bos.toByteArray())
+        val body =
+        // Создаем multipart объект, где указываем поле, в котором
+            // содержатся посылаемые данные, имя файла и медиафайл
+            MultipartBody.Part.createFormData("file", "image.jpg", reqFIle)
+        return api.uploadImage(body)
+    }
 
 
 }

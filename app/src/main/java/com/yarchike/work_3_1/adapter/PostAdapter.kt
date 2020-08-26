@@ -7,14 +7,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.yarchike.work_3_1.App
+import com.bumptech.glide.Glide
 import com.yarchike.work_3_1.R
+import com.yarchike.work_3_1.dto.AttachmentType
 import com.yarchike.work_3_1.dto.PostModel
-import kotlinx.android.synthetic.main.create_post.*
+import kotlinx.android.synthetic.main.create_repost.*
 import kotlinx.android.synthetic.main.item_load_more.view.*
 import kotlinx.android.synthetic.main.item_load_new.view.progressbar
+import kotlinx.android.synthetic.main.item_post.view.*
 import kotlinx.android.synthetic.main.item_post.view.authorTv
 import kotlinx.android.synthetic.main.item_post.view.contentTv
 import kotlinx.android.synthetic.main.item_post.view.likeBtn
@@ -22,10 +25,6 @@ import kotlinx.android.synthetic.main.item_post.view.likesTv
 import kotlinx.android.synthetic.main.item_post.view.repostsTv
 import kotlinx.android.synthetic.main.item_post.view.shareBtn
 import kotlinx.android.synthetic.main.item_repost.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import retrofit2.Response
 import splitties.toast.toast
 
 class PostAdapter(val list: MutableList<PostModel>) :
@@ -246,18 +245,26 @@ class PostViewHolder(val adapter: PostAdapter, view: View) : RecyclerView.ViewHo
                     repostsTv.setTextColor(ContextCompat.getColor(context, R.color.colorGrey))
                 }
             }
+            when (post.attachment?.mediaType) {
+                AttachmentType.IMAGE -> loadImage(photoImg, post.attachment.url) }
         }
     }
 
     fun showDialog(context: Context, createBtnClicked: (content: String) -> Unit) {
         val dialog = AlertDialog.Builder(context)
-            .setView(R.layout.create_post)
+            .setView(R.layout.create_repost)
             .show()
         dialog.createRepostBtn.setOnClickListener {
             createBtnClicked(dialog.contentEdtRepost.text.toString())
             dialog.dismiss()
         }
     }
+    private fun loadImage(photoImg: ImageView, imageUrl: String) {
+        Glide.with(photoImg.context)
+            .load(imageUrl)
+            .into(photoImg)
+    }
+
 
 
 }

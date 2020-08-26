@@ -33,7 +33,7 @@ class App : Application() {
             .build()
         val retrofit = Retrofit.Builder()
             .client(client)
-            .baseUrl("http://server-martynov.herokuapp.com/")
+            .baseUrl("$BASE_URL/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         //создаем API на основе нового retrofit-клиента

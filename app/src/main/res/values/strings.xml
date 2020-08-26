@@ -32,5 +32,6 @@
     <string name="creat_repost">Создание репоста</string>
     <string name="load_more_posts">загрузить еще</string>
     <string name="load_new_posts">загрузить новые</string>
+    <string name="add_image">Добавить картинку</string>
 
 </resources>

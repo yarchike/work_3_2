@@ -1,7 +1,9 @@
 package com.yarchike.work_3_1.api
 
 import com.google.gson.annotations.SerializedName
+import com.yarchike.work_3_1.dto.AttachmentModel
 import com.yarchike.work_3_1.dto.PostModel
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -10,7 +12,11 @@ data class AuthRequestParams(val username: String, val password: String)
 data class Token(val token: String)
 
 data class RegistrationRequestParams(val username: String, val password: String)
-data class CreatePostRequest(val id: Long = 0, val postResurse: String)
+data class CreatePostRequest(
+    val id: Long = 0,
+    val postResurse: String,
+    val attachment: AttachmentModel? = null
+)
 data class CreateRepostRequest(val id: Long = 0, val postResurse: String, val repostResurs:PostModel )
 
 
@@ -27,6 +33,10 @@ data class PostRequest(
 interface API {
     @POST("api/v1/authentication")
     suspend fun authenticate(@Body authRequestParams: AuthRequestParams): Response<Token>
+    @Multipart
+    @POST("api/v1/media")
+    suspend fun uploadImage(@Part file: MultipartBody.Part):
+            Response<AttachmentModel>
 
     @POST("api/v1/registration")
     suspend fun register(@Body registrationRequestParams: RegistrationRequestParams): Response<Token>

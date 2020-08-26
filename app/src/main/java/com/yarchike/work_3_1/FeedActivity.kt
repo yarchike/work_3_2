@@ -7,6 +7,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.yarchike.work_3_1.adapter.PostAdapter
 import com.yarchike.work_3_1.dto.PostModel
 import kotlinx.android.synthetic.main.activity_feed.*
@@ -14,6 +17,7 @@ import kotlinx.android.synthetic.main.item_load_more.*
 import kotlinx.coroutines.launch
 import splitties.activities.start
 import splitties.toast.toast
+import java.util.concurrent.TimeUnit
 
 class FeedActivity : AppCompatActivity(),
     PostAdapter.OnLikeBtnClickListener, PostAdapter.OnRepostsBtnClickListener,
@@ -134,6 +138,31 @@ class FeedActivity : AppCompatActivity(),
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFirstTime(this)) {
+            NotifictionHelper.comeBackNotification(this)
+            setLastVisitTime(this, System.currentTimeMillis())
+        } else {
+            setLastVisitTime(this, System.currentTimeMillis())
+        }
+
+    }
+
+    private fun scheduleJob() {
+        val checkWork =
+            PeriodicWorkRequestBuilder<UserNotHereWorker>(
+                SHOW_NOTIFICATION_AFTER_UNVISITED_MS,
+                TimeUnit.MILLISECONDS
+            )
+                .build()
+
+        WorkManager.getInstance(this)
+            .enqueueUniquePeriodicWork(
+                "user_present_work",
+                ExistingPeriodicWorkPolicy.KEEP, checkWork
+            )
+    }
 }
 
 

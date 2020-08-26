@@ -54,69 +54,86 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@android:color/black"/>
+
     <ImageButton
         android:id="@+id/likeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_no_like"
-        android:background="@android:color/transparent"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/likesTv"
-        app:layout_constraintTop_toBottomOf="@+id/contentTv"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/mediaContainer"
+        app:layout_constraintVertical_bias="0.2"
+        app:srcCompat="@drawable/ic_no_like" />
+
     <TextView
         android:id="@+id/likesTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
         android:text="0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toStartOf="@id/commentBtn"
-        app:layout_constraintTop_toBottomOf="@+id/contentTv"
-        app:layout_constraintBottom_toBottomOf="parent" android:textColor="#ff0000"/>
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_no_comment"
-        android:id="@+id/commentBtn"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toStartOf="@+id/commentsTv"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/contentTv"
+        android:textColor="#ff0000"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
-    <TextView
-        android:id="@+id/commentsTv"
-        tools:text="8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toStartOf="@id/shareBtn"
-        app:layout_constraintTop_toBottomOf="@+id/contentTv"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintEnd_toStartOf="@id/commentBtn"
+        app:layout_constraintTop_toTopOf="@+id/likeBtn" />
 
     <ImageButton
+        android:id="@+id/commentBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_no_share"
-        android:id="@+id/shareBtn"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toStartOf="@+id/repostsTv"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/contentTv"
+        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toStartOf="@+id/commentsTv"
+        app:layout_constraintTop_toTopOf="@+id/likeBtn"
+        app:srcCompat="@drawable/ic_no_comment" />
+
+    <TextView
+        android:id="@+id/commentsTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/shareBtn"
+        app:layout_constraintTop_toTopOf="@+id/likeBtn"
+        tools:text="8" />
+
+    <ImageButton
+        android:id="@+id/shareBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/repostsTv"
+        app:layout_constraintTop_toTopOf="@+id/likeBtn"
+        app:srcCompat="@drawable/ic_no_share" />
+
     <TextView
         android:id="@+id/repostsTv"
-        tools:text="2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contentTv"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="@+id/likeBtn"
+        tools:text="2" />
+
+    <FrameLayout
+        android:id="@+id/mediaContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contentTv">
+
+        <ImageView
+            android:id="@+id/photoImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:layout_constraintHeight_max="400dp" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
