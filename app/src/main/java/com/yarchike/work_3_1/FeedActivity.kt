@@ -142,27 +142,11 @@ class FeedActivity : AppCompatActivity(),
         super.onDestroy()
         if (isFirstTime(this)) {
             NotifictionHelper.comeBackNotification(this)
-            setLastVisitTime(this, System.currentTimeMillis())
-        } else {
-            setLastVisitTime(this, System.currentTimeMillis())
+            setNotFirstTime(this)
         }
 
     }
 
-    private fun scheduleJob() {
-        val checkWork =
-            PeriodicWorkRequestBuilder<UserNotHereWorker>(
-                SHOW_NOTIFICATION_AFTER_UNVISITED_MS,
-                TimeUnit.MILLISECONDS
-            )
-                .build()
-
-        WorkManager.getInstance(this)
-            .enqueueUniquePeriodicWork(
-                "user_present_work",
-                ExistingPeriodicWorkPolicy.KEEP, checkWork
-            )
-    }
 }
 
 

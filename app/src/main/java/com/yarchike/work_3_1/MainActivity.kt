@@ -4,9 +4,13 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.launch
 
@@ -15,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        requestToken()
+
         if (isAuthenticated()) {
             navigateToFeed()
             return
@@ -93,6 +99,30 @@ class MainActivity : AppCompatActivity() {
             .edit()
             .putString(AUTHENTICATED_SHARED_KEY, token)
             .apply()
+
+    private fun requestToken() {
+        with(GoogleApiAvailability.getInstance()) {
+            val code = isGooglePlayServicesAvailable(this@MainActivity)
+            if (code == ConnectionResult.SUCCESS) {
+                return@with
+            }
+
+            if (isUserResolvableError(code)) {
+                getErrorDialog(this@MainActivity, code, 9000).show()
+                return
+            }
+
+            root.longSnackbar(getString(R.string.google_play_unavailable))
+            return
+        }
+
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
+            lifecycleScope.launch {
+                println(it.token)
+//                Repository.registerPushToken(it.token)
+            }
+        }
+    }
 
 
 }

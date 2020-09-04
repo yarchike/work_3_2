@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "951062264649",
+    "firebase_url": "https://work-2-3-server.firebaseio.com",
+    "project_id": "work-2-3-server",
+    "storage_bucket": "work-2-3-server.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951062264649:android:15e7a75534cb0b1a76f898",
+        "android_client_info": {
+          "package_name": "com.yarchike.work_3_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951062264649-h51iuk258a81bkqb3mcigk0m9abkd9f3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxRZexS42EdN0MLMOI2ilTaiLBphHRftw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951062264649-h51iuk258a81bkqb3mcigk0m9abkd9f3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

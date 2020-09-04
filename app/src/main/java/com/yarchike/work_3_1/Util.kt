@@ -19,8 +19,3 @@ fun setNotFirstTime(context: Context) =
     context.getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE)
         .edit()
         .putBoolean(API_SHARED_FILE, false)
-fun setLastVisitTime(context: Context, currentTimeMillis: Long) =
-    context.getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE)
-        .edit()
-        .putLong(LAST_TIME_VISIT_SHARED_KEY, currentTimeMillis)
-        .commit()

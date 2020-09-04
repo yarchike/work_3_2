@@ -69,6 +69,10 @@ object NotifictionHelper {
         }
         showNotification(context, builder)
     }
+    fun testNotific(context: Context, title: String, content: String){
+        val builder = createBuilder(context, title, content)
+        showNotification(context, builder)
+    }
 
     private fun showNotification(
         context: Context,
