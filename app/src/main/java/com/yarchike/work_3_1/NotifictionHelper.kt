@@ -70,7 +70,7 @@ object NotifictionHelper {
         showNotification(context, builder)
     }
     fun testNotific(context: Context, title: String, content: String){
-        val builder = createBuilder(context, title, content)
+        val builder = createBuilder(context = context, title = title, content = content, priority = NotificationManager.IMPORTANCE_HIGH)
         showNotification(context, builder)
     }
 

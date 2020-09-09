@@ -8,7 +8,7 @@ import com.yarchike.work_3_1.NotifictionHelper
 class FCMService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         val recipientId = message.data["recipientId"]
-        val title = message.data["title"]
+        val title =message.data["title"]
 
         println(recipientId)
         println(title)
