@@ -14,7 +14,7 @@ class FCMService : FirebaseMessagingService() {
         println(title)
         if (title != null) {
             if (recipientId != null) {
-                NotifictionHelper.testNotific(this, title, recipientId)
+                NotifictionHelper.testNotific(this, title)
             }
         }
     }
