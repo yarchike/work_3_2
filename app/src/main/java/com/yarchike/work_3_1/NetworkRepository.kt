@@ -12,9 +12,11 @@ import retrofit2.Response
 import java.io.ByteArrayOutputStream
 
 class NetworkRepository(private val api: API): Repository {
-
-    override suspend fun authenticate(login: String, password: String): Response<Token> =
-        api.authenticate(AuthRequestParams(username = login, password = password))
+    private var token: String? = null
+    override suspend fun authenticate(login: String, password: String): Response<Token> {
+        token = api.authenticate(AuthRequestParams(username = login, password = password)).body()?.token
+     return api.authenticate(AuthRequestParams(username = login, password = password))
+    }
 
     override suspend fun register(login: String, password: String): Response<Token> =
         api.register(RegistrationRequestParams(username = login, password = password))
@@ -54,6 +56,9 @@ class NetworkRepository(private val api: API): Repository {
             MultipartBody.Part.createFormData("file", "image.jpg", reqFIle)
         return api.uploadImage(body)
     }
+
+    override suspend fun registerPushToken(token: String): Response<User> = api.registerPushToken(this.token!!, PushRequestParams(token))
+
 
 
 }

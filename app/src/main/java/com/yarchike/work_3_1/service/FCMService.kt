@@ -9,7 +9,10 @@ class FCMService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         val recipientId = message.data["recipientId"]
         val title =message.data["title"]
+        val body =message.data["body"]
 
+
+        println(body)
         println(recipientId)
         println(title)
         if (title != null) {

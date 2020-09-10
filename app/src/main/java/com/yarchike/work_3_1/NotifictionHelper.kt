@@ -70,7 +70,21 @@ object NotifictionHelper {
         showNotification(context, builder)
     }
     fun testNotific(context: Context, content: String){
-        val builder = createBuilder(context = context, title = "title", content = content, priority = NotificationManager.IMPORTANCE_HIGH)
+        createNotificationChannelIfNotCreated(context)
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            createBuilder(
+                context,
+                "Медиа загружено",
+                content,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+        } else {
+            createBuilder(
+                context,
+                "Медиа загружено",
+                content
+            )
+        }
         showNotification(context, builder)
     }
 

@@ -19,12 +19,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        requestToken()
+        //requestToken()
 
-        if (isAuthenticated()) {
+        /*if (isAuthenticated()) {
             navigateToFeed()
             return
-        }
+        }*/
         title = getString(R.string.title_authorization)
         btn_login.setOnClickListener {
             when {
@@ -52,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                             dialog?.dismiss()
                             if (token.isSuccessful) {
                                 setUserAuth(requireNotNull(token.body()?.token))
+                                requestToken()
                                 navigateToFeed()
                             } else {
                                 Toast.makeText(
@@ -119,7 +120,8 @@ class MainActivity : AppCompatActivity() {
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
             lifecycleScope.launch {
                 println(it.token)
-//                Repository.registerPushToken(it.token)
+
+                App.repository.registerPushToken(it.token)
             }
         }
     }
