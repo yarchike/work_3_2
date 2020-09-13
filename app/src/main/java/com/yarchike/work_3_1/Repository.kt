@@ -6,6 +6,7 @@ import com.yarchike.work_3_1.api.User
 import com.yarchike.work_3_1.dto.AttachmentModel
 import com.yarchike.work_3_1.dto.PostModel
 import retrofit2.Response
+import retrofit2.http.Path
 
 interface Repository {
 
@@ -20,4 +21,5 @@ interface Repository {
     suspend fun getPostsOld(id: Long):Response<List<PostModel>>
     suspend fun upload(bitmap: Bitmap): Response<AttachmentModel>
     suspend fun registerPushToken(token: String) : Response<User>
+    suspend fun getPostId(id: Long): Response<PostModel>
 }

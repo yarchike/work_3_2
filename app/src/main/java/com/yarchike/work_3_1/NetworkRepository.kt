@@ -58,7 +58,7 @@ class NetworkRepository(private val api: API): Repository {
     }
 
     override suspend fun registerPushToken(token: String): Response<User> = api.registerPushToken(this.token!!, PushRequestParams(token))
-
+    override suspend fun getPostId(id: Long): Response<PostModel> =  api.getPostId(id)
 
 
 }

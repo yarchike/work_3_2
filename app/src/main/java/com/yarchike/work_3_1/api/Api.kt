@@ -21,7 +21,7 @@ data class CreateRepostRequest(val id: Long = 0, val postResurse: String, val re
 
 data class PushRequestParams(val token: String)
 
-data class User(val Username: String)
+data class User(val username: String)
 
 
 // тип поста автоматически определяется на базе sourceId и link
@@ -60,5 +60,7 @@ interface API {
     suspend fun getPostsOld(@Body id:Long): Response<List<PostModel>>
     @POST("api/v1/push")
     suspend fun registerPushToken(@Header("Authorization") token: String, @Body pushRequestParams: PushRequestParams): Response<User>
+    @GET("api/v1//posts/{id}")
+    suspend fun getPostId(@Path("id") id: Long): Response<PostModel>
 
 }

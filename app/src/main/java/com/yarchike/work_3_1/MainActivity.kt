@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -19,12 +18,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //requestToken()
 
-        /*if (isAuthenticated()) {
+        if (isAuthenticated()) {
             navigateToFeed()
             return
-        }*/
+        }
         title = getString(R.string.title_authorization)
         btn_login.setOnClickListener {
             when {
@@ -120,8 +118,7 @@ class MainActivity : AppCompatActivity() {
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener {
             lifecycleScope.launch {
                 println(it.token)
-
-                App.repository.registerPushToken(it.token)
+                val user = App.repository.registerPushToken(it.token)
             }
         }
     }

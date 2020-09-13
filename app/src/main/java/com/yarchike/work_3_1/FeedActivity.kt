@@ -61,7 +61,6 @@ class FeedActivity : AppCompatActivity(),
                 show()
             }
             val result = App.repository.getPosts()
-            println(result.toString())
             dialog?.dismiss()
             if (result.isSuccessful) {
                 with(container) {

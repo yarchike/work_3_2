@@ -1,14 +1,17 @@
 package com.yarchike.work_3_1
+
 import android.annotation.TargetApi
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.yarchike.work_3_1.dto.AttachmentType
-
 import java.util.*
+
 
 object NotifictionHelper {
     private val UPLOAD_CHANEL_ID = "upload_chanel_id"
@@ -50,6 +53,52 @@ object NotifictionHelper {
         showNotification(context, builder)
 
     }
+    fun postIsLike(context: Context, content: String?, id:Long){
+        createNotificationChannelIfNotCreated(context)
+        val resultIntent = Intent(context,  OnePostActivity::class.java)
+        resultIntent.putExtra("id", id.toString());
+        val resultPendingIntent = PendingIntent.getActivity(
+            context, 0, resultIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            createBuilder(
+                context,
+                "",
+                "$content",
+                NotificationManager.IMPORTANCE_MIN
+
+                ).setContentIntent(resultPendingIntent)
+        } else {
+            createBuilder(
+                context,
+                "",
+                "$content"
+            )
+        }
+        showNotification(context, builder)
+    }
+
+    fun welcomUser(context: Context, content: String?){
+        createNotificationChannelIfNotCreated(context)
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            createBuilder(
+                context,
+                "",
+                "$content",
+                NotificationManager.IMPORTANCE_MIN
+
+            )
+        } else {
+            createBuilder(
+                context,
+                "",
+                "$content"
+            )
+        }
+        showNotification(context, builder)
+    }
+
 
     fun mediaUploaded(type: AttachmentType, context: Context) {
         createNotificationChannelIfNotCreated(context)
@@ -65,24 +114,6 @@ object NotifictionHelper {
                 context,
                 "Медиа загружено",
                 "Ваш ${type.name.toLowerCase()} успешно загружен."
-            )
-        }
-        showNotification(context, builder)
-    }
-    fun testNotific(context: Context, content: String){
-        createNotificationChannelIfNotCreated(context)
-        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            createBuilder(
-                context,
-                "Медиа загружено",
-                content,
-                NotificationManager.IMPORTANCE_HIGH
-            )
-        } else {
-            createBuilder(
-                context,
-                "Медиа загружено",
-                content
             )
         }
         showNotification(context, builder)
